@@ -64,11 +64,16 @@ public class Test001 {
         }*/
 
 
+
+
+
         //测试多表联查3：查询出带有“市”字的城市和省份的所有信息
         List<ProvinceAndCityVO> voList = provinceDao.select3("市");
         for (ProvinceAndCityVO pvo : voList){
             System.out.println(pvo);
         }
+
+        System.out.println("-------");
 
 
     }
