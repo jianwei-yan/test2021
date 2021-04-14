@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.study.dao.ProvinceDao">
+
+    <!--查询一条记录-->
+    <select id="getById" parameterType="java.lang.Integer" resultType="Province">
+        select * from province where id=#{id}
+    </select>
+
+    <!--添加操作-->
+    <insert id="save" parameterType="Province">
+        insert into province(id,name,jiancheng,shenghui) values(#{id},#{name},#{jiancheng},#{shenghui})
+    </insert>
+
+    <!--查询所有的信息-->
+    <select id="getAll" resultType="com.study.domain.Province">
+        select * from province
+    </select>
+
+    <!--模糊查询-->
+    <select id="selectlike" resultType="Province">
+        select * from province where name like '%' #{name} '%'
+    </select>
+
+    <!--多表联查1-->
+    <select id="select1" resultType="map">
+
+        select c.name as cname,p.name as pname
+        from city c
+        join province p
+        on p.id=c.provinceid
+
+    </select>
+
+    <!--多表联查2 VO-->
+    <select id="select2" resultType="com.study.vo.ProvinceAndCityVO">
+        select
+            c.id as cid,
+            c.name as cname,
+            p.id as pid,
+            p.name as pname,
+            p.jiancheng as pjiancheng,
+            p.shenghui as pshenghui
+
+        from city c
+        join province p
+        on p.id=c.provinceid
+    </select>
+
+    <!--多表联查3-->
+    <select id="select3" resultType="com.study.vo.ProvinceAndCityVO">
+        select
+            c.id as cid,
+            c.name as cname,
+            p.id as pid,
+            p.name as pname,
+            p.jiancheng as pjiancheng,
+            p.shenghui as pshenghui
+
+        from city c
+        join province p
+        on p.id=c.provinceid
+
+        where c.name like '%' #{name} '%'
+    </select>
+
+</mapper>
