@@ -11,13 +11,15 @@ import java.lang.reflect.Proxy;
 * */
 public class TransactionInvocationHandler implements InvocationHandler {
 
-    private Object target;    //目标对象
+    //目标对象
+    private Object target;
+    //动态代理：目标对象是不固定的，传入参数的是谁，就给谁创建代理
     public TransactionInvocationHandler(Object target){
         this.target=target;
     }
 
 
-    //代理类的业务方法
+    //代理类的业务方法(调用目标方法：连接数据库  功能增强：事务)
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
@@ -27,9 +29,10 @@ public class TransactionInvocationHandler implements InvocationHandler {
         try{
 
             session = SqlSessionUtil.getSession();
-            //处理真正业务层的业务逻辑
+
+            //处理真正业务层的业务逻辑（调用目标方法）
             obj = method.invoke(target,args);
-            //处理业务逻辑后，提交事务
+            //处理业务逻辑后，提交事务 (功能增强)
             session.commit();
 
         } catch (Exception e){
